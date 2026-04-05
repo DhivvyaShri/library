@@ -3,12 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = escape;
+exports.default = isMongoId;
 var _assertString = _interopRequireDefault(require("./util/assertString"));
+var _isHexadecimal = _interopRequireDefault(require("./isHexadecimal"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-function escape(str) {
+function isMongoId(str) {
   (0, _assertString.default)(str);
-  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\//g, '&#x2F;').replace(/\\/g, '&#x5C;').replace(/`/g, '&#96;');
+  return (0, _isHexadecimal.default)(str) && str.length === 24;
 }
 module.exports = exports.default;
 module.exports.default = exports.default;

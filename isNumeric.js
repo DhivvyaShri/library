@@ -3,12 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = escape;
+exports.default = isNumeric;
 var _assertString = _interopRequireDefault(require("./util/assertString"));
+var _alpha = require("./alpha");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-function escape(str) {
+var numericNoSymbols = /^[0-9]+$/;
+function isNumeric(str, options) {
   (0, _assertString.default)(str);
-  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\//g, '&#x2F;').replace(/\\/g, '&#x5C;').replace(/`/g, '&#96;');
+  if (options && options.no_symbols) {
+    return numericNoSymbols.test(str);
+  }
+  return new RegExp("^[+-]?([0-9]*[".concat((options || {}).locale ? _alpha.decimal[options.locale] : '.', "])?[0-9]+$")).test(str);
 }
 module.exports = exports.default;
 module.exports.default = exports.default;

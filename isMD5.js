@@ -3,12 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = escape;
+exports.default = isMD5;
 var _assertString = _interopRequireDefault(require("./util/assertString"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-function escape(str) {
+var md5 = /^[a-f0-9]{32}$/;
+function isMD5(str) {
   (0, _assertString.default)(str);
-  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\//g, '&#x2F;').replace(/\\/g, '&#x5C;').replace(/`/g, '&#96;');
+  return md5.test(str);
 }
 module.exports = exports.default;
 module.exports.default = exports.default;

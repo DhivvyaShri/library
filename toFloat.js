@@ -3,12 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = equals;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
+exports.default = toFloat;
+var _isFloat = _interopRequireDefault(require("./isFloat"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-function equals(str, comparison) {
-  (0, _assertString.default)(str);
-  return str === comparison;
+function toFloat(str) {
+  if (!(0, _isFloat.default)(str)) return NaN;
+  return parseFloat(str);
 }
 module.exports = exports.default;
 module.exports.default = exports.default;

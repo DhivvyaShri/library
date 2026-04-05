@@ -3,12 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = escape;
+exports.default = isVariableWidth;
 var _assertString = _interopRequireDefault(require("./util/assertString"));
+var _isFullWidth = require("./isFullWidth");
+var _isHalfWidth = require("./isHalfWidth");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-function escape(str) {
+function isVariableWidth(str) {
   (0, _assertString.default)(str);
-  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\//g, '&#x2F;').replace(/\\/g, '&#x5C;').replace(/`/g, '&#96;');
+  return _isFullWidth.fullWidth.test(str) && _isHalfWidth.halfWidth.test(str);
 }
 module.exports = exports.default;
 module.exports.default = exports.default;
