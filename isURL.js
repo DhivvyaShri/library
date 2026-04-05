@@ -1,22 +1,16 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isURL;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-var _checkHost = _interopRequireDefault(require("./util/checkHost"));
-var _includesString = _interopRequireDefault(require("./util/includesString"));
-var _isFQDN = _interopRequireDefault(require("./isFQDN"));
-var _isIP = _interopRequireDefault(require("./isIP"));
-var _merge = _interopRequireDefault(require("./util/merge"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+import assertString from './util/assertString';
+import checkHost from './util/checkHost';
+import includes from './util/includesString';
+import isFQDN from './isFQDN';
+import isIP from './isIP';
+import merge from './util/merge';
+
 /*
 options for isURL method
 
@@ -61,22 +55,22 @@ var default_url_options = {
   max_allowed_length: 2084
 };
 var wrapped_ipv6 = /^\[([^\]]+)\](?::([0-9]+))?$/;
-function isURL(url, options) {
-  (0, _assertString.default)(url);
+export default function isURL(url, options) {
+  assertString(url);
   if (!url || /[\s<>]/.test(url)) {
     return false;
   }
   if (url.indexOf('mailto:') === 0) {
     return false;
   }
-  options = (0, _merge.default)(options, default_url_options);
+  options = merge(options, default_url_options);
   if (options.validate_length && url.length > options.max_allowed_length) {
     return false;
   }
-  if (!options.allow_fragments && (0, _includesString.default)(url, '#')) {
+  if (!options.allow_fragments && includes(url, '#')) {
     return false;
   }
-  if (!options.allow_query_components && ((0, _includesString.default)(url, '?') || (0, _includesString.default)(url, '&'))) {
+  if (!options.allow_query_components && (includes(url, '?') || includes(url, '&'))) {
     return false;
   }
   var protocol, auth, host, hostname, port, port_str, split, ipv6;
@@ -231,19 +225,17 @@ function isURL(url, options) {
     return false;
   }
   if (options.host_whitelist) {
-    return (0, _checkHost.default)(host, options.host_whitelist);
+    return checkHost(host, options.host_whitelist);
   }
   if (host === '' && !options.require_host) {
     return true;
   }
-  if (!(0, _isIP.default)(host) && !(0, _isFQDN.default)(host, options) && (!ipv6 || !(0, _isIP.default)(ipv6, 6))) {
+  if (!isIP(host) && !isFQDN(host, options) && (!ipv6 || !isIP(ipv6, 6))) {
     return false;
   }
   host = host || ipv6;
-  if (options.host_blacklist && (0, _checkHost.default)(host, options.host_blacklist)) {
+  if (options.host_blacklist && checkHost(host, options.host_blacklist)) {
     return false;
   }
   return true;
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

@@ -1,11 +1,4 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = normalizeEmail;
-var _merge = _interopRequireDefault(require("./util/merge"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+import merge from './util/merge';
 var default_normalize_email_options = {
   // The following options apply to all email addresses
   // Lowercases the local part of the email address.
@@ -66,8 +59,8 @@ function dotsReplacer(match) {
   }
   return '';
 }
-function normalizeEmail(email, options) {
-  options = (0, _merge.default)(options, default_normalize_email_options);
+export default function normalizeEmail(email, options) {
+  options = merge(options, default_normalize_email_options);
   var raw_parts = email.split('@');
   var domain = raw_parts.pop();
   var user = raw_parts.join('@');
@@ -136,5 +129,3 @@ function normalizeEmail(email, options) {
   }
   return parts.join('@');
 }
-module.exports = exports.default;
-module.exports.default = exports.default;
