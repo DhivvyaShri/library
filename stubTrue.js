@@ -1,5 +1,18 @@
-var convert = require('./convert'),
-    func = convert('stubTrue', require('../stubTrue'), require('./_falseOptions'));
+/**
+ * This method returns `true`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `true`.
+ * @example
+ *
+ * _.times(2, _.stubTrue);
+ * // => [true, true]
+ */
+function stubTrue() {
+  return true;
+}
 
-func.placeholder = require('./placeholder');
-module.exports = func;
+module.exports = stubTrue;

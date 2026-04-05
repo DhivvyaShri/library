@@ -1,30 +1,19 @@
 {
-  "name": "library-management-system",
-  "version": "1.0.0",
-  "description": "A complete Library Management System built with Node.js and MySQL",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "library",
-    "management",
-    "books",
-    "members",
-    "transactions"
-  ],
-  "author": "",
+  "name": "lodash",
+  "version": "4.18.1",
+  "description": "Lodash modular utilities.",
+  "keywords": "modules, stdlib, util",
+  "homepage": "https://lodash.com/",
+  "repository": "lodash/lodash",
+  "icon": "https://lodash.com/icon.svg",
   "license": "MIT",
-  "dependencies": {
-    "express": "^4.18.2",
-    "mysql2": "^3.6.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express-validator": "^7.0.0",
-    "helmet": "^7.0.0",
-    "morgan": "^1.10.0",
-    "bcryptjs": "^2.4.3"
+  "main": "lodash.js",
+  "author": "John-David Dalton <john.david.dalton@gmail.com>",
+  "contributors": [
+    "John-David Dalton <john.david.dalton@gmail.com>",
+    "Mathias Bynens <mathias@qiwi.be>"
+  ],
+  "scripts": {
+    "test": "echo \"See https://travis-ci.org/lodash-archive/lodash-cli for testing details.\""
   }
 }
