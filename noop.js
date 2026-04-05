@@ -1,5 +1,17 @@
-var convert = require('./convert'),
-    func = convert('noop', require('../noop'), require('./_falseOptions'));
+/**
+ * This method returns `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.3.0
+ * @category Util
+ * @example
+ *
+ * _.times(2, _.noop);
+ * // => [undefined, undefined]
+ */
+function noop() {
+  // No operation performed.
+}
 
-func.placeholder = require('./placeholder');
-module.exports = func;
+module.exports = noop;

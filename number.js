@@ -1,2 +1,5 @@
-var convert = require('./convert');
-module.exports = convert(require('../number'));
+module.exports = {
+  'clamp': require('./clamp'),
+  'inRange': require('./inRange'),
+  'random': require('./random')
+};
