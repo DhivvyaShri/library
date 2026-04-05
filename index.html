@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>📚 Library</h1>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+        <ul class="nav-tabs">
+            <li><a href="#" data-tab="dashboard" class="tab-link active">Dashboard</a></li>
+            <li><a href="#" data-tab="books" class="tab-link">Books</a></li>
+            <li><a href="#" data-tab="members" class="tab-link">Members</a></li>
+            <li><a href="#" data-tab="transactions" class="tab-link">Transactions</a></li>
+            <li><a href="#" data-tab="cardswipe" class="tab-link">Card Swipe</a></li>
+            <li><a href="#" data-tab="settings" class="tab-link">Settings</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Loading Spinner -->
+        <div class="spinner" id="spinner"></div>
+
+        <!-- DASHBOARD TAB -->
+        <div id="dashboard" class="tab-content active">
+            <h2>Dashboard</h2>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <h3>Total Books</h3>
+                    <p class="stat-value" id="totalBooks">-</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Members</h3>
+                    <p class="stat-value" id="activeMembers">-</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Books Issued</h3>
+                    <p class="stat-value" id="booksIssued">-</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Overdue Books</h3>
+                    <p class="stat-value alert" id="overdueBooks">-</p>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Recent Transactions</h3>
+                    <table id="recentTransactionsTable">
+                        <thead>
+                            <tr>
+                                <th>Book</th>
+                                <th>Member</th>
+                                <th>Status</th>
+                                <th>Issue Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentTransactionsBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Popular Books</h3>
+                    <table id="popularBooksTable">
+                        <thead>
+                            <tr>
+                                <th>Book</th>
+                                <th>Author</th>
+                                <th>Borrows</th>
+                            </tr>
+                        </thead>
+                        <tbody id="popularBooksBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOOKS TAB -->
+        <div id="books" class="tab-content">
+            <h2>Books Management</h2>
+            <div class="controls">
+                <input type="text" id="booksSearch" placeholder="Search by title, author, or ID..." class="search-input">
+                <select id="categoryFilter" class="filter-select">
+                    <option value="">All Categories</option>
+                </select>
+                <button onclick="window.app.openBookModal()" class="btn-primary">+ Add Book</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Total</th>
+                        <th>Available</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="booksTableBody"></tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination" id="booksPagination"></div>
+        </div>
+
+        <!-- MEMBERS TAB -->
+        <div id="members" class="tab-content">
+            <h2>Members Management</h2>
+            <div class="controls">
+                <input type="text" id="membersSearch" placeholder="Search by name, card ID, or email..." class="search-input">
+                <select id="statusFilter" class="filter-select">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="suspended">Suspended</option>
+                    <option value="expired">Expired</option>
+                </select>
+                <button onclick="window.app.openMemberModal()" class="btn-primary">+ Add Member</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Card ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Type</th>
+                        <th>Books</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="membersTableBody"></tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination" id="membersPagination"></div>
+        </div>
+
+        <!-- TRANSACTIONS TAB -->
+        <div id="transactions" class="tab-content">
+            <h2>Transactions Management</h2>
+            <div class="controls">
+                <button onclick="window.app.openIssueModal()" class="btn-success">+ Issue Book</button>
+                <button onclick="window.app.openReturnModal()" class="btn-info">↩ Return Book</button>
+                <select id="transactionStatusFilter" class="filter-select">
+                    <option value="">All Status</option>
+                    <option value="issued">Issued</option>
+                    <option value="returned">Returned</option>
+                    <option value="overdue">Overdue</option>
+                </select>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Book</th>
+                        <th>Member</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Fine</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionsTableBody"></tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination" id="transactionsPagination"></div>
+        </div>
+
+        <!-- CARD SWIPE TAB -->
+        <div id="cardswipe" class="tab-content">
+            <h2>Card Swipe Simulation</h2>
+            <div class="card-swipe-container">
+                <div class="swipe-input-section">
+                    <p>Swipe card or enter card ID:</p>
+                    <input type="text" id="cardSwipeInput" placeholder="Swipe card here..." autofocus class="card-input">
+                    <div class="demo-buttons">
+                        <button onclick="window.app.demoSwipe('CARD001')" class="btn-demo">Demo: CARD001</button>
+                        <button onclick="window.app.demoSwipe('CARD002')" class="btn-demo">Demo: CARD002</button>
+                        <button onclick="window.app.demoSwipe('CARD003')" class="btn-demo">Demo: CARD003</button>
+                    </div>
+                </div>
+
+                <div id="memberDetailsSection" class="member-details-section" style="display:none;">
+                    <div class="card member-card">
+                        <h3 id="swipedMemberName"></h3>
+                        <p><strong>Card ID:</strong> <span id="swipedCardId"></span></p>
+                        <p><strong>Email:</strong> <span id="swipedEmail"></span></p>
+                        <p><strong>Phone:</strong> <span id="swipedPhone"></span></p>
+                        <p><strong>Type:</strong> <span id="swipedType"></span></p>
+
+                        <h4>Current Borrowings</h4>
+                        <div id="swipedBorrowings"></div>
+
+                        <h4>Unpaid Fines</h4>
+                        <div id="swipedFines"></div>
+
+                        <div class="action-buttons">
+                            <button onclick="window.app.openIssueModalForMember()" class="btn-success">Issue Book</button>
+                            <button onclick="window.app.openReturnModalForMember()" class="btn-info">Return Book</button>
+                            <button onclick="window.app.clearCardSwipe()" class="btn-secondary">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS TAB -->
+        <div id="settings" class="tab-content">
+            <h2>Settings & Reports</h2>
+            <div class="settings-grid">
+                <div class="card">
+                    <h3>Data Management</h3>
+                    <button onclick="window.app.exportDataJSON()" class="btn-secondary">Export as JSON</button>
+                    <button onclick="window.app.exportDataCSV()" class="btn-secondary">Export as CSV</button>
+                    <button onclick="window.app.importData()" class="btn-secondary">Import Data</button>
+                    <button onclick="window.app.clearAllData()" class="btn-danger">Clear All Data</button>
+                </div>
+
+                <div class="card">
+                    <h3>Reports</h3>
+                    <button onclick="window.app.generateInventoryReport()" class="btn-secondary">Inventory Report</button>
+                    <button onclick="window.app.generateMemberReport()" class="btn-secondary">Member Report</button>
+                    <button onclick="window.app.generateTransactionReport()" class="btn-secondary">Transaction Report</button>
+                    <button onclick="window.app.generateFineReport()" class="btn-secondary">Fine Collection Report</button>
+                </div>
+
+                <div class="card">
+                    <h3>System Status</h3>
+                    <p>Database: <span id="dbStatus" class="status-badge">Checking...</span></p>
+                    <p>Server: <span id="serverStatus" class="status-badge">Checking...</span></p>
+                    <button onclick="window.app.recalculateOverdue()" class="btn-secondary">Calculate Overdue Fines</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODALS -->
+
+    <!-- Add/Edit Book Modal -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="window.app.closeBookModal()">&times;</span>
+            <h3 id="bookModalTitle">Add Book</h3>
+            <form id="bookForm" onsubmit="app.submitBookForm(event)">
+                <input type="hidden" id="bookId" value="">
+                <div class="form-group">
+                    <label>Book ID <span class="required">*</span></label>
+                    <input type="text" id="formBookId" required>
+                </div>
+                <div class="form-group">
+                    <label>Title <span class="required">*</span></label>
+                    <input type="text" id="formTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Author <span class="required">*</span></label>
+                    <input type="text" id="formAuthor" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="formCategory">
+                </div>
+                <div class="form-group">
+                    <label>ISBN</label>
+                    <input type="text" id="formISBN">
+                </div>
+                <div class="form-group">
+                    <label>Publisher</label>
+                    <input type="text" id="formPublisher">
+                </div>
+                <div class="form-group">
+                    <label>Publication Year</label>
+                    <input type="number" id="formYear" min="1000" max="9999">
+                </div>
+                <div class="form-group">
+                    <label>Total Copies</label>
+                    <input type="number" id="formCopies" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="formLocation">
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Save</button>
+                    <button type="button" class="btn-secondary" onclick="window.app.closeBookModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Member Modal -->
+    <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="window.app.closeMemberModal()">&times;</span>
+            <h3 id="memberModalTitle">Add Member</h3>
+            <form id="memberForm" onsubmit="app.submitMemberForm(event)">
+                <input type="hidden" id="memberId" value="">
+                <div class="form-group">
+                    <label>Card ID <span class="required">*</span></label>
+                    <input type="text" id="formCardId" required>
+                </div>
+                <div class="form-group">
+                    <label>Name <span class="required">*</span></label>
+                    <input type="text" id="formMemberName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email <span class="required">*</span></label>
+                    <input type="email" id="formEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="formPhone">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="formAddress"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Membership Type</label>
+                    <select id="formMembershipType">
+                        <option value="Basic">Basic</option>
+                        <option value="Premium">Premium</option>
+                        <option value="Student">Student</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="formMemberStatus">
+                        <option value="active">Active</option>
+                        <option value="suspended">Suspended</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Save</button>
+                    <button type="button" class="btn-secondary" onclick="window.app.closeMemberModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Issue Book Modal -->
+    <div id="issueModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="window.app.closeIssueModal()">&times;</span>
+            <h3>Issue Book</h3>
+            <form id="issueForm" onsubmit="app.submitIssueForm(event)">
+                <div class="form-group">
+                    <label>Book ID <span class="required">*</span></label>
+                    <input type="text" id="issueBookId" placeholder="Enter or scan book ID" required>
+                </div>
+                <div class="form-group">
+                    <label>Member Card ID <span class="required">*</span></label>
+                    <input type="text" id="issueMemberId" placeholder="Swipe member card" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-success">Issue</button>
+                    <button type="button" class="btn-secondary" onclick="window.app.closeIssueModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Return Book Modal -->
+    <div id="returnModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="window.app.closeReturnModal()">&times;</span>
+            <h3>Return Book</h3>
+            <form id="returnForm" onsubmit="app.submitReturnForm(event)">
+                <div class="form-group">
+                    <label>Transaction ID <span class="required">*</span></label>
+                    <input type="text" id="returnTransactionId" placeholder="Enter transaction ID" required>
+                </div>
+                <div id="returnFineInfo" style="display:none;">
+                    <p><strong>Fine Amount:</strong> <span id="returnFineAmount">₹0</span></p>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-success">Return</button>
+                    <button type="button" class="btn-secondary" onclick="window.app.closeReturnModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
