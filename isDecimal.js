@@ -1,16 +1,9 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isDecimal;
-var _merge = _interopRequireDefault(require("./util/merge"));
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-var _includesArray = _interopRequireDefault(require("./util/includesArray"));
-var _alpha = require("./alpha");
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+import merge from './util/merge';
+import assertString from './util/assertString';
+import includes from './util/includesArray';
+import { decimal } from './alpha';
 function decimalRegExp(options) {
-  var regExp = new RegExp("^[-+]?([0-9]+)?(\\".concat(_alpha.decimal[options.locale], "[0-9]{").concat(options.decimal_digits, "})").concat(options.force_decimal ? '' : '?', "$"));
+  var regExp = new RegExp("^[-+]?([0-9]+)?(\\".concat(decimal[options.locale], "[0-9]{").concat(options.decimal_digits, "})").concat(options.force_decimal ? '' : '?', "$"));
   return regExp;
 }
 var default_decimal_options = {
@@ -19,13 +12,11 @@ var default_decimal_options = {
   locale: 'en-US'
 };
 var blacklist = ['', '-', '+'];
-function isDecimal(str, options) {
-  (0, _assertString.default)(str);
-  options = (0, _merge.default)(options, default_decimal_options);
-  if (options.locale in _alpha.decimal) {
-    return !(0, _includesArray.default)(blacklist, str.replace(/ /g, '')) && decimalRegExp(options).test(str);
+export default function isDecimal(str, options) {
+  assertString(str);
+  options = merge(options, default_decimal_options);
+  if (options.locale in decimal) {
+    return !includes(blacklist, str.replace(/ /g, '')) && decimalRegExp(options).test(str);
   }
   throw new Error("Invalid locale '".concat(options.locale, "'"));
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

@@ -1,11 +1,4 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isISIN;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+import assertString from './util/assertString';
 var isin = /^[A-Z]{2}[0-9A-Z]{9}[0-9]$/;
 
 // this link details how the check digit is calculated:
@@ -15,12 +8,12 @@ var isin = /^[A-Z]{2}[0-9A-Z]{9}[0-9]$/;
 // each alpha character is handled as 2 characters within
 // the loop.
 
-function isISIN(str) {
-  (0, _assertString.default)(str);
+export default function isISIN(str) {
+  assertString(str);
   if (!isin.test(str)) {
     return false;
   }
-  var double = true;
+  var _double = true;
   var sum = 0;
   // convert values
   for (var i = str.length - 2; i >= 0; i--) {
@@ -32,7 +25,7 @@ function isISIN(str) {
       // and high order digits separately.
       for (var _i = 0, _arr = [lo, hi]; _i < _arr.length; _i++) {
         var digit = _arr[_i];
-        if (double) {
+        if (_double) {
           if (digit >= 5) {
             sum += 1 + (digit - 5) * 2;
           } else {
@@ -41,11 +34,11 @@ function isISIN(str) {
         } else {
           sum += digit;
         }
-        double = !double;
+        _double = !_double;
       }
     } else {
       var _digit = str[i].charCodeAt(0) - '0'.charCodeAt(0);
-      if (double) {
+      if (_double) {
         if (_digit >= 5) {
           sum += 1 + (_digit - 5) * 2;
         } else {
@@ -54,11 +47,9 @@ function isISIN(str) {
       } else {
         sum += _digit;
       }
-      double = !double;
+      _double = !_double;
     }
   }
   var check = Math.trunc((sum + 9) / 10) * 10 - sum;
   return +str[str.length - 1] === check;
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

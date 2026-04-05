@@ -1,13 +1,6 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isLuhnNumber;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
-function isLuhnNumber(str) {
-  (0, _assertString.default)(str);
+import assertString from './util/assertString';
+export default function isLuhnNumber(str) {
+  assertString(str);
   var sanitized = str.replace(/[- ]+/g, '');
   var sum = 0;
   var digit;
@@ -30,5 +23,3 @@ function isLuhnNumber(str) {
   }
   return !!(sum % 10 === 0 ? sanitized : false);
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

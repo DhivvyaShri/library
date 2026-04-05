@@ -1,11 +1,5 @@
-"use strict";
+import assertString from './util/assertString';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isRFC3339;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 /* Based on https://tools.ietf.org/html/rfc3339#section-5.6 */
 
 var dateFullYear = /[0-9]{4}/;
@@ -21,9 +15,7 @@ var partialTime = new RegExp("".concat(timeHour.source, ":").concat(timeMinute.s
 var fullDate = new RegExp("".concat(dateFullYear.source, "-").concat(dateMonth.source, "-").concat(dateMDay.source));
 var fullTime = new RegExp("".concat(partialTime.source).concat(timeOffset.source));
 var rfc3339 = new RegExp("^".concat(fullDate.source, "[ tT]").concat(fullTime.source, "$"));
-function isRFC3339(str) {
-  (0, _assertString.default)(str);
+export default function isRFC3339(str) {
+  assertString(str);
   return rfc3339.test(str);
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

@@ -1,11 +1,5 @@
-"use strict";
+import assertString from './util/assertString';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isMimeType;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 /*
   Checks if the provided string matches to a correct Media type format (MIME type)
 
@@ -40,9 +34,7 @@ var mimeTypeText = /^text\/[a-zA-Z0-9\.\-\+]{1,100};\s?charset=("[a-zA-Z0-9\.\-\
 // Handle "boundary" in "multipart/*"
 var mimeTypeMultipart = /^multipart\/[a-zA-Z0-9\.\-\+]{1,100}(;\s?(boundary|charset)=("[a-zA-Z0-9\.\-\+\s]{0,70}"|[a-zA-Z0-9\.\-\+]{0,70})(\s?\([a-zA-Z0-9\.\-\+\s]{1,20}\))?){0,2}$/i; // eslint-disable-line max-len
 
-function isMimeType(str) {
-  (0, _assertString.default)(str);
+export default function isMimeType(str) {
+  assertString(str);
   return mimeTypeSimple.test(str) || mimeTypeText.test(str) || mimeTypeMultipart.test(str);
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

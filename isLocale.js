@@ -1,11 +1,5 @@
-"use strict";
+import assertString from './util/assertString';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isLocale;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 /*
   = 3ALPHA              ; selected ISO 639 codes
     *2("-" 3ALPHA)      ; permanently reserved
@@ -107,9 +101,7 @@ var langtag = "".concat(language, "(").concat(delimiter).concat(script, ")?(").c
   https://www.rfc-editor.org/rfc/rfc5646.html
  */
 var languageTagRegex = new RegExp("(^".concat(privateuse, "$)|(^").concat(grandfathered, "$)|(^").concat(langtag, "$)"));
-function isLocale(str) {
-  (0, _assertString.default)(str);
+export default function isLocale(str) {
+  assertString(str);
   return languageTagRegex.test(str);
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

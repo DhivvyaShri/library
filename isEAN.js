@@ -1,11 +1,3 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isEAN;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 /**
  * The most commonly used EAN standard is
  * the thirteen-digit EAN-13, while the
@@ -19,6 +11,8 @@ function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e
  * Reference: https://en.wikipedia.org/wiki/International_Article_Number
  * Reference: https://www.gtin.info/
  */
+
+import assertString from './util/assertString';
 
 /**
  * Define EAN Lengths; 8 for EAN-8; 13 for EAN-13; 14 for EAN-14
@@ -52,8 +46,8 @@ function getPositionWeightThroughLengthAndIndex(length, index) {
  * @return {number}
  */
 function calculateCheckDigit(ean) {
-  var checksum = ean.slice(0, -1).split('').map(function (char, index) {
-    return Number(char) * getPositionWeightThroughLengthAndIndex(ean.length, index);
+  var checksum = ean.slice(0, -1).split('').map(function (_char, index) {
+    return Number(_char) * getPositionWeightThroughLengthAndIndex(ean.length, index);
   }).reduce(function (acc, partialSum) {
     return acc + partialSum;
   }, 0);
@@ -69,10 +63,8 @@ function calculateCheckDigit(ean) {
  * @param {string} str
  * @return {boolean}
  */
-function isEAN(str) {
-  (0, _assertString.default)(str);
+export default function isEAN(str) {
+  assertString(str);
   var actualCheckDigit = Number(str.slice(-1));
   return validEanRegex.test(str) && actualCheckDigit === calculateCheckDigit(str);
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

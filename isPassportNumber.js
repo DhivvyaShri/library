@@ -1,12 +1,5 @@
-"use strict";
+import assertString from './util/assertString';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isPassportNumber;
-exports.locales = void 0;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 /**
  * Reference:
  * https://en.wikipedia.org/ -- Wikipedia
@@ -134,7 +127,7 @@ var passportRegexByCountryCode = {
   // UNITED STATES
   ZA: /^[TAMD]\d{8}$/ // SOUTH AFRICA
 };
-var locales = exports.locales = Object.keys(passportRegexByCountryCode);
+export var locales = Object.keys(passportRegexByCountryCode);
 
 /**
  * Check if str is a valid passport number
@@ -144,8 +137,8 @@ var locales = exports.locales = Object.keys(passportRegexByCountryCode);
  * @param {string} countryCode
  * @return {boolean}
  */
-function isPassportNumber(str, countryCode) {
-  (0, _assertString.default)(str);
+export default function isPassportNumber(str, countryCode) {
+  assertString(str);
   /** Remove All Whitespaces, Convert to UPPERCASE */
   var normalizedStr = str.replace(/\s/g, '').toUpperCase();
   return countryCode.toUpperCase() in passportRegexByCountryCode && passportRegexByCountryCode[countryCode].test(normalizedStr);

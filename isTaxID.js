@@ -1,21 +1,13 @@
-"use strict";
-
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isTaxID;
-var _assertString = _interopRequireDefault(require("./util/assertString"));
-var algorithms = _interopRequireWildcard(require("./util/algorithms"));
-var _isDate = _interopRequireDefault(require("./isDate"));
-function _interopRequireWildcard(e, t) { if ("function" == typeof WeakMap) var r = new WeakMap(), n = new WeakMap(); return (_interopRequireWildcard = function _interopRequireWildcard(e, t) { if (!t && e && e.__esModule) return e; var o, i, f = { __proto__: null, default: e }; if (null === e || "object" != _typeof(e) && "function" != typeof e) return f; if (o = t ? n : r) { if (o.has(e)) return o.get(e); o.set(e, f); } for (var _t in e) "default" !== _t && {}.hasOwnProperty.call(e, _t) && ((i = (o = Object.defineProperty) && Object.getOwnPropertyDescriptor(e, _t)) && (i.get || i.set) ? o(f, _t, i) : f[_t] = e[_t]); return f; })(e, t); }
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+import assertString from './util/assertString';
+import * as algorithms from './util/algorithms';
+import isDate from './isDate';
+
 /**
  * TIN Validation
  * Validates Tax Identification Numbers (TINs) from the US, EU member states and the United Kingdom.
@@ -61,7 +53,7 @@ function bgBgCheck(tin) {
     month = "0".concat(month);
   }
   var date = "".concat(century_year, "/").concat(month, "/").concat(tin.slice(4, 6));
-  if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+  if (!isDate(date, 'YYYY/MM/DD')) {
     return false;
   }
 
@@ -162,7 +154,7 @@ function csCzCheck(tin) {
 
   // Check date validity
   var date = "".concat(full_year, "/").concat(month, "/").concat(tin.slice(4, 6));
-  if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+  if (!isDate(date, 'YYYY/MM/DD')) {
     return false;
   }
 
@@ -285,7 +277,7 @@ function dkDkCheck(tin) {
   }
   // Check date validity
   var date = "".concat(year, "/").concat(tin.slice(2, 4), "/").concat(tin.slice(0, 2));
-  if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+  if (!isDate(date, 'YYYY/MM/DD')) {
     return false;
   }
 
@@ -508,7 +500,7 @@ function etEeCheck(tin) {
   }
   // Check date validity
   var date = "".concat(full_year, "/").concat(tin.slice(3, 5), "/").concat(tin.slice(5, 7));
-  if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+  if (!isDate(date, 'YYYY/MM/DD')) {
     return false;
   }
 
@@ -567,7 +559,7 @@ function fiFiCheck(tin) {
   }
   // Check date validity
   var date = "".concat(full_year, "/").concat(tin.slice(2, 4), "/").concat(tin.slice(0, 2));
-  if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+  if (!isDate(date, 'YYYY/MM/DD')) {
     return false;
   }
 
@@ -591,7 +583,7 @@ function frBeCheck(tin) {
   if (tin.slice(2, 4) !== '00' || tin.slice(4, 6) !== '00') {
     // Extract date from first six digits of TIN
     var date = "".concat(tin.slice(0, 2), "/").concat(tin.slice(2, 4), "/").concat(tin.slice(4, 6));
-    if (!(0, _isDate.default)(date, 'YY/MM/DD')) {
+    if (!isDate(date, 'YY/MM/DD')) {
       return false;
     }
   }
@@ -626,7 +618,7 @@ function frFrCheck(tin) {
 function frLuCheck(tin) {
   // Extract date and check validity
   var date = "".concat(tin.slice(0, 4), "/").concat(tin.slice(4, 6), "/").concat(tin.slice(6, 8));
-  if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+  if (!isDate(date, 'YYYY/MM/DD')) {
     return false;
   }
 
@@ -772,7 +764,7 @@ function itItCheck(tin) {
     day = "0".concat(day);
   }
   var date = "".concat(chars[6]).concat(chars[7], "/").concat(month, "/").concat(day);
-  if (!(0, _isDate.default)(date, 'YY/MM/DD')) {
+  if (!isDate(date, 'YY/MM/DD')) {
     return false;
   }
 
@@ -866,7 +858,7 @@ function lvLvCheck(tin) {
       }
       // Check date validity
       var date = "".concat(full_year, "/").concat(tin.slice(2, 4), "/").concat(day);
-      if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+      if (!isDate(date, 'YYYY/MM/DD')) {
         return false;
       }
     }
@@ -978,7 +970,7 @@ function plPlCheck(tin) {
   }
   // Check date validity
   var date = "".concat(full_year, "/").concat(month, "/").concat(tin.slice(4, 6));
-  if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+  if (!isDate(date, 'YYYY/MM/DD')) {
     return false;
   }
 
@@ -1013,8 +1005,8 @@ function plPlCheck(tin) {
  * Numbers 0-9 map to values 0-9, letters A-Z map to values 17-42.
  * This is done by subtracting 48 from the ASCII code.
  */
-function cnpjCharToValue(char) {
-  return char.charCodeAt(0) - 48;
+function cnpjCharToValue(_char) {
+  return _char.charCodeAt(0) - 48;
 }
 
 /**
@@ -1129,10 +1121,10 @@ function roRoCheck(tin) {
     // Check date validity
     var date = "".concat(full_year, "/").concat(tin.slice(3, 5), "/").concat(tin.slice(5, 7));
     if (date.length === 8) {
-      if (!(0, _isDate.default)(date, 'YY/MM/DD')) {
+      if (!isDate(date, 'YY/MM/DD')) {
         return false;
       }
-    } else if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+    } else if (!isDate(date, 'YYYY/MM/DD')) {
       return false;
     }
 
@@ -1189,7 +1181,7 @@ function skSkCheck(tin) {
 
     // Check date validity
     var date = "".concat(full_year, "/").concat(month, "/").concat(tin.slice(4, 6));
-    if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+    if (!isDate(date, 'YYYY/MM/DD')) {
       return false;
     }
   }
@@ -1261,10 +1253,10 @@ function svSeCheck(tin) {
   }
   var date = "".concat(full_year, "/").concat(month, "/").concat(day);
   if (date.length === 8) {
-    if (!(0, _isDate.default)(date, 'YY/MM/DD')) {
+    if (!isDate(date, 'YY/MM/DD')) {
       return false;
     }
-  } else if (!(0, _isDate.default)(date, 'YYYY/MM/DD')) {
+  } else if (!isDate(date, 'YYYY/MM/DD')) {
     return false;
   }
   return algorithms.luhnCheck(tin.replace(/\W/, ''));
@@ -1393,9 +1385,9 @@ sanitizeRegexes['nl-BE'] = sanitizeRegexes['fr-BE'];
  * for the specified locale.
  * Throw an error exception if the locale is not supported.
  */
-function isTaxID(str) {
+export default function isTaxID(str) {
   var locale = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'en-US';
-  (0, _assertString.default)(str);
+  assertString(str);
   // Copy TIN to avoid replacement if sanitized
   var strcopy = str.slice(0);
   if (locale in taxIdFormat) {
@@ -1413,5 +1405,3 @@ function isTaxID(str) {
   }
   throw new Error("Invalid locale '".concat(locale, "'"));
 }
-module.exports = exports.default;
-module.exports.default = exports.default;

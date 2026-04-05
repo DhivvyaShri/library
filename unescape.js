@@ -1,34 +1,17 @@
-var toString = require('./toString'),
-    unescapeHtmlChar = require('./_unescapeHtmlChar');
+"use strict";
 
-/** Used to match HTML entities and HTML characters. */
-var reEscapedHtml = /&(?:amp|lt|gt|quot|#39);/g,
-    reHasEscapedHtml = RegExp(reEscapedHtml.source);
-
-/**
- * The inverse of `_.escape`; this method converts the HTML entities
- * `&amp;`, `&lt;`, `&gt;`, `&quot;`, and `&#39;` in `string` to
- * their corresponding characters.
- *
- * **Note:** No other HTML entities are unescaped. To unescape additional
- * HTML entities use a third-party library like [_he_](https://mths.be/he).
- *
- * @static
- * @memberOf _
- * @since 0.6.0
- * @category String
- * @param {string} [string=''] The string to unescape.
- * @returns {string} Returns the unescaped string.
- * @example
- *
- * _.unescape('fred, barney, &amp; pebbles');
- * // => 'fred, barney, & pebbles'
- */
-function unescape(string) {
-  string = toString(string);
-  return (string && reHasEscapedHtml.test(string))
-    ? string.replace(reEscapedHtml, unescapeHtmlChar)
-    : string;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = unescape;
+var _assertString = _interopRequireDefault(require("./util/assertString"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+function unescape(str) {
+  (0, _assertString.default)(str);
+  return str.replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/g, '/').replace(/&#x5C;/g, '\\').replace(/&#96;/g, '`').replace(/&amp;/g, '&');
+  // &amp; replacement has to be the last one to prevent
+  // bugs with intermediate strings containing escape sequences
+  // See: https://github.com/validatorjs/validator.js/issues/1827
 }
-
-module.exports = unescape;
+module.exports = exports.default;
+module.exports.default = exports.default;
